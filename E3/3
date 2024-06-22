@@ -1,0 +1,25 @@
+from scipy.optimize import linprog
+
+# 目標函數係數 (注意這裡是要最小化目標函數，所以取相反數)
+c = [-3, -2, -5]
+
+# 不等式左側係數
+A = [
+    [1, 1, 0],  # x + y <= 10
+    [2, 0, 1],  # 2x + z <= 9
+    [0, 1, 2]   # y + 2z <= 11
+]
+
+# 不等式右側係數
+b = [10, 9, 11]
+
+# 變數非負約束
+x0_bounds = (0, None)
+x1_bounds = (0, None)
+x2_bounds = (0, None)
+
+# 求解線性規劃問題
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x0_bounds, x1_bounds, x2_bounds], method='simplex')
+
+# 輸出結果
+print('Optimal value:', -result.fun, '\nX:', result.x)
